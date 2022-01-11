@@ -11,12 +11,11 @@ var thrust = 113000; //thrust (N)
 var burnRate = (wetMass - dryMass) / burnTime; //fuel burn rate (kg/s)
 
 //Sim parameters and data
-var t = 0; //time (sec) (initialize to time of pitchover after liftoff) *FIGURE THIS OUT PROPERLY*
+var t = 0; //time (sec)
 var velTheta = 90; //angle of velocity vector from horizontal (degrees)
-var initVel = 0; //velocity at beginning of gravity turn (m/s) *FIGURE THIS OUT PROPERLY*
-var vertSigma = 0; //vertical velocity summed from vertical acceleration
-var horizSigma = 0; //horizontal velocity summed from horizontal acceleration
-var altSigma = 0; //altitude summed from vertSigma
+var vertSigma = 0; //vertical velocity summed from vertical acceleration (m)
+var horizSigma = 0; //horizontal velocity summed from horizontal acceleration (m)
+var altSigma = 0; //altitude summed from vertSigma (m)
 var frequency = 1; //number of measurements per second (Hz)
 
 //mass at given time t
