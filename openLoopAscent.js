@@ -3,13 +3,6 @@ var radToDeg = 180 / Math.PI; //constant to convert radians to degrees
 var degToRad = Math.PI / 180; //constant to convert degrees to radians
 var g = 9.8; //gravitational acceleration (m/s^2)
 
-//Rocket data
-var wetMass = 9714; //mass with fuel load (kg)
-var dryMass = 3122; //mass without fuel load (kg)
-var burnTime = 142; //burn duration (sec)
-var thrust = 113000; //thrust (N)
-var burnRate = (wetMass - dryMass) / burnTime; //fuel burn rate (kg/s)
-
 //Sim parameters and data
 var t = 0; //time (sec)
 var velTheta = 90; //angle of velocity vector from horizontal (degrees)
@@ -17,6 +10,16 @@ var vertSigma = 0; //vertical velocity summed from vertical acceleration (m)
 var horizSigma = 0; //horizontal velocity summed from horizontal acceleration (m)
 var altSigma = 0; //altitude summed from vertSigma (m)
 var frequency = 1; //number of measurements per second (Hz)
+var pressure = 101325*(1-(2.25577*10**-5)*altSigma)**5.25588; //atmospheric pressure at altitude (pascals)
+
+//Rocket data
+var wetMass = 9714; //mass with fuel load (kg)
+var dryMass = 3122; //mass without fuel load (kg)
+var burnTime = 142; //burn duration (sec)
+var vacThrust = 123600; //thrust produced in a vacuum (N)
+var slThrust = 112900; //thrust produced at sea level (N)
+var thrust = vacThrust-(vacThrust-slThrust)*(pressure/101325); //thrust at atmospheric pressure (N)
+var burnRate = (wetMass - dryMass) / burnTime; //fuel burn rate (kg/s)
 
 //mass at given time t
 function mass(t) {
@@ -86,7 +89,4 @@ console.log("Vertical speed at cutoff: " + vertSigma);
 console.log("Alt to apogee: " + (vertSigma**2)/(2*g));
 console.log("Apogee altitude: " + ((vertSigma**2)/(2*g) + altSigma));
 
-const fs = require ("fs");
-fs.writeFile("simOutput.txt", simOutput, (err) => {
-    if (err) throw err;
-});
+console.log(simOutput);
