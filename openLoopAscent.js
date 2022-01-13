@@ -33,12 +33,12 @@ function a0(t) {
 
 //vertical component of acceleration including gravity loss at given time t (m/s^2)
 function av(t) {
-    return (a0(t) * (Math.sin(velTheta * degToRad))) - g;
+    return a0(t) * Math.sin(velTheta * degToRad) - g;
 }
 
 //horizontal component of velocity at given time t (m/s^2)
 function ah(t) {
-    return (a0(t) * (Math.cos(velTheta * degToRad)));
+    return a0(t) * Math.cos(velTheta * degToRad);
 }
 
 //sum vertical acceleration for velocity at given time t (m/s)
@@ -90,4 +90,4 @@ console.log("Total speed at cutoff: " + vertSigma/Math.sin(velTheta*degToRad));
 console.log("Alt to apogee: " + (vertSigma**2)/(2*g));
 console.log("Apogee altitude: " + ((vertSigma**2)/(2*g) + altSigma));
 
-console.log(simOutput);
+//console.log(simOutput);
