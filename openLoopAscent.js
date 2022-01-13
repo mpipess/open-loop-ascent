@@ -10,7 +10,7 @@ var vertSigma = 0; //vertical velocity summed from vertical acceleration (m)
 var horizSigma = 0; //horizontal velocity summed from horizontal acceleration (m)
 var altSigma = 0; //altitude summed from vertSigma (m)
 var frequency = 5; //number of measurements per second (Hz)
-var pressure = 101325*(1-(2.25577*10**-5)*altSigma)**5.25588; //atmospheric pressure at altitude (Pa)
+//var pressure = 101325*(1-(2.25577*10**-5)*altSigma)**5.25588; //atmospheric pressure at altitude (Pa)
 
 //Rocket data
 var wetMass = 9714; //mass with fuel load (kg)
@@ -18,8 +18,21 @@ var dryMass = 3122; //mass without fuel load (kg)
 var burnTime = 142; //burn duration (sec)
 var vacThrust = 123600; //thrust produced in a vacuum (N)
 var slThrust = 112900; //thrust produced at sea level (N)
-var thrust = vacThrust-(vacThrust-slThrust)*(pressure/101325); //thrust at atmospheric pressure (N)
+//var thrust = vacThrust-(vacThrust-slThrust)*(pressure/101325); //thrust at atmospheric pressure (N)
 var burnRate = (wetMass - dryMass) / burnTime; //fuel burn rate (kg/s)
+
+function pressure() {
+    if (altSigma < 44330) {
+        return 101325*(1-(2.25577*10**-5)*altSigma)**5.25588;
+    }
+    else {
+        return 0;
+    }
+}
+
+function thrust() {
+    return vacThrust-(vacThrust-slThrust)*(pressure()/101325);
+}
 
 //mass at given time t (kg)
 function mass(t) {
@@ -28,7 +41,7 @@ function mass(t) {
 
 //total acceleration prior to gravity loss at given time t (m/s^2)
 function a0(t) {
-    return thrust / mass(t);
+    return thrust() / mass(t);
 }
 
 //vertical component of acceleration including gravity loss at given time t (m/s^2)
@@ -68,7 +81,7 @@ while (t < 9) {
 
     simOutput += (velTheta * radToDeg).toString() + ", "
 }
-velTheta = (899 * Math.PI)/1800;
+velTheta = (8985 * Math.PI)/18000;
 console.log("Pitchover " + vertSigma);
 while (t < 143) {
     velTheta = velTheta1(t);
