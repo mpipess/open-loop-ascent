@@ -5,7 +5,7 @@ var g = 9.8; //gravitational acceleration (m/s^2)
 
 //Sim parameters and data
 var t = 0; //time (sec)
-var velTheta = 90; //angle of velocity vector from horizontal (degrees)
+var velTheta = Math.PI / 2; //angle of velocity vector from horizontal (degrees)
 var vertSigma = 0; //vertical velocity summed from vertical acceleration (m)
 var horizSigma = 0; //horizontal velocity summed from horizontal acceleration (m)
 var altSigma = 0; //altitude summed from vertSigma (m)
@@ -33,12 +33,12 @@ function a0(t) {
 
 //vertical component of acceleration including gravity loss at given time t (m/s^2)
 function av(t) {
-    return a0(t) * Math.sin(velTheta * degToRad) - g;
+    return a0(t) * Math.sin(velTheta) - g;
 }
 
 //horizontal component of velocity at given time t (m/s^2)
 function ah(t) {
-    return a0(t) * Math.cos(velTheta * degToRad);
+    return a0(t) * Math.cos(velTheta);
 }
 
 //sum vertical acceleration for velocity at given time t (m/s)
@@ -55,28 +55,28 @@ function sumHorizAcc(t) {
 
 //arctangent sums for angle of velocity vector from horizontal (degrees)
 function velTheta1(t) {
-    return Math.atan(sumVertAcc(t) / sumHorizAcc(t)) * radToDeg;
+    return Math.atan(sumVertAcc(t) / sumHorizAcc(t));
 }
 
 var simOutput = "";
 //simulates ascent for burn time length
 while (t < 9) {
     velTheta = velTheta1(t);
-    console.log(velTheta);
+    console.log(velTheta * radToDeg);
     altSigma += (vertSigma / frequency);
     t += 1 / frequency;
 
-    simOutput += velTheta.toString() + ", "
+    simOutput += (velTheta * radToDeg).toString() + ", "
 }
-velTheta = 89.9;
+velTheta = (899 * Math.PI)/1800;
 console.log("Pitchover " + vertSigma);
 while (t < 143) {
     velTheta = velTheta1(t);
-    console.log(velTheta);
+    console.log(velTheta * radToDeg);
     altSigma += (vertSigma / frequency);
     t += 1 / frequency;
 
-    simOutput += velTheta.toString() + ", "
+    simOutput += (velTheta * radToDeg).toString() + ", "
 }
 
 //calculate altitude at burnout -- sum vertical acceleration (m)
@@ -86,7 +86,7 @@ console.log("Altitude at cutoff: " + altSigma)
 //alt to apogee: vf=0, a=g, vi=sumVertAcc; vf^2=vi^2+2ady; dy=-vi^2/2a
 //total alt of apogee: dy+altitude
 console.log("Vertical speed at cutoff: " + vertSigma);
-console.log("Total speed at cutoff: " + vertSigma/Math.sin(velTheta*degToRad));
+console.log("Total speed at cutoff: " + vertSigma/Math.sin(velTheta));
 console.log("Alt to apogee: " + (vertSigma**2)/(2*g));
 console.log("Apogee altitude: " + ((vertSigma**2)/(2*g) + altSigma));
 
