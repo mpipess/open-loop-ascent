@@ -10,7 +10,7 @@ of vertical and horizontal velocities, and altitude from summation of vertical v
    Apogee calculation is via basic kinematics.
 */
 
-public class JavaSim {
+public class AscentSim {
 
    public static void main(String[] args) {
       
