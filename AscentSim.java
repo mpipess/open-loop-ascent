@@ -15,9 +15,9 @@ public class AscentSim {
    public static void main(String[] args) {
       
       Rocket rox = new Rocket(20, 9665, 3072, 112900, 123600, 142);
-      //System.out.println(rox.findPitchAngle(100000, 20));
+      System.out.println(rox.findPitchAngle(100000, 20));
       Rocket rs112 = new Rocket(20, 5272, 1133, 88400, 98500, 95);
-      System.out.println("Pitchover Angle: " + rs112.findPitchAngle(150000, 20));
+      //System.out.println("Pitchover Angle: " + rs112.findPitchAngle(150000, 20));
       
    }
    
@@ -98,43 +98,29 @@ class Rocket {
    
    //Simulates ascent before and after pitchover
    public void simulateAscent(int pitchAlt, double pitchAngle) {
-      while (altitude < pitchAlt) {
+      boolean didHitGround = false;
+      while (altitude < pitchAlt && didHitGround == false) {
          update();
          if (altitude < 0) {
             //System.out.println("Hit ground at t+ " + t);
-            break;
+            didHitGround = true;
          }
          t += (double) 1 / freq;
       }
       velTheta = pitchAngle;
-      while (t <= burnTime) {
+      while (t <= burnTime && didHitGround == false) {
          update();
          if (altitude < 0) {
             //System.out.println("Hit ground at t+ " + t);
-            break;
+            didHitGround = true;
          }
          t += (double) 1 / freq;
       }
-   }
-   
-   //Returns altitude (m)
-   public double getAltitude() {
-      return altitude;
-   }
-   
-   //Returns velTheta (radians)
-   public double getVelTheta() {
-      return velTheta;
    }
    
    //Returns apogee (m)
    public double getApogee() {
       return -1 * (vertVel * vertVel) / (2 * g) + altitude;
-   }
-   
-   //Returns vertical velocity (m/s)
-   public double getVertVel() {
-      return vertVel;
    }
    
    //Sets all properties to defaults
