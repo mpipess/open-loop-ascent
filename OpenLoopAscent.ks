@@ -9,14 +9,14 @@ set myAltitude to 0. //altitude summed from vertVelocity (m)
 set frequency to 20. //number of measurements per second (Hz)
 
 //Rocket data
-set wetMass to 10000. //mass with fuel load (kg)
-set dryMass to 3000. //mass without fuel load (kg)
-set burnTime to 150. //burn duration (sec)
-set vacThrust to 125000. //thrust produced in a vacuum (N)
-set slThrust to 115000. //thrust produced at 1 atm (N)
+set wetMass to 9665. //mass with fuel load (kg)
+set dryMass to 3072. //mass without fuel load (kg)
+set burnTime to 142. //burn duration (sec)
+set vacThrust to 123600. //thrust produced in a vacuum (N)
+set slThrust to 112900. //thrust produced at 1 atm (N)
 set burnRate to (dryMass - wetMass) / burnTime. //fuel burn rate (kg/s)
 set pitchAlt to 20. //Altitude of pitchover (m)
-set pitchAngle to 89.983. //Angle of pitchover (degrees)
+set pitchAngle to 89.989. //Angle of pitchover (degrees)
 
 //Returns atmospheric pressure (Pa) at altitude
 declare function pressure {
@@ -50,7 +50,7 @@ declare function ah {
 
 //sum vertical acceleration for velocity (m/s)
 declare function sumVertAcc {
-    set vertVelocity to vertVelocity + (av() / frequency.
+    set vertVelocity to vertVelocity + (av() / frequency).
 }
 
 //sum horizontal acceleration for velocity (m/s)
@@ -95,7 +95,7 @@ until (myAltitude > pitchAlt) {
     wait until currentTime > t.
 }
 
-set velTheta to 89.9.
+set velTheta to pitchAngle.
 print("Pitchover " + vertVelocity).
 
 until (t > burnTime) {
@@ -114,6 +114,6 @@ print("% variation: " + (altitude - myAltitude) / myAltitude * 100).
 //apogee calculator
 //alt to apogee: vf=0, a=g, vi=sumVertAcc vf^2=vi^2+2ady dy=-vi^2/2a
 //total alt of apogee: dy+altitude
-set myApogee to (vertVelocity^2) / (2 * g) + myAltitude
+set myApogee to (vertVelocity^2) / (2 * g) + myAltitude.
 print("Apogee altitude: " + myApogee).
 print("% variation: " + (Orbit:apoapsis - myApogee) / myApogee * 100).

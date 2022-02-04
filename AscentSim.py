@@ -82,21 +82,9 @@ class Rocket:
                 break
             self.t += 1 / self.freq
 
-    #Returns altitude (m)
-    def getAltitude(self):
-        return self.altitude
-
-    #Returns velTheta (radians)
-    def getVelTheta(self):
-        return self.velTheta
-
     #Returns apogee (m)
     def getApogee(self):
         return -1 * (self.vertVel**2) / (2 * self.g) + self.altitude
-
-    #Returns vertical velocity (m/s)
-    def getVertVel(self):
-        return self.vertVel
 
     #Sets all properties to defaults
     def setToDefault(self):
