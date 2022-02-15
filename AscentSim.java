@@ -16,7 +16,7 @@ public class AscentSim {
       
       Rocket rox = new Rocket(20, 9665, 3072, 112900, 123600, 142);
       System.out.println(rox.findPitchAngle(100000, 20));
-      Rocket rs112 = new Rocket(20, 5272, 1133, 88400, 98500, 95);
+      //Rocket rs112 = new Rocket(20, 5272, 1133, 88400, 98500, 95);
       //System.out.println("Pitchover Angle: " + rs112.findPitchAngle(150000, 20));
       
    }
@@ -65,7 +65,13 @@ class Rocket {
    
    //Returns mass (kg) of vehicle at given time
    private double mass() {
-      return wetMass + burnRate * t;
+      double m = wetMass + burnRate * t;
+      if (m > dryMass) {
+         return m;
+      }
+      else {
+         return dryMass;
+      }
    }
    
    //Returns vertical acceleration (m/s^2)

@@ -41,7 +41,11 @@ class Rocket:
 
     #Returns mass (kg) of vehicle at given time
     def mass(self):
-        return self.wetMass + self.burnRate * self.t
+        m = self.wetMass + self.burnRate * self.t
+        if (m > self.dryMass):
+            return self.wetMass + self.burnRate * self.t
+        else:
+            return self.dryMass
 
     #Returns vertical acceleration (m/s^2)
     def av(self):
