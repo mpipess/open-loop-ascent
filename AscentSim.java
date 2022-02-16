@@ -50,17 +50,17 @@ class Rocket {
       burnRate = (double) (m1 - m0) / bt;
    }
    
-   //Returns atmospheric pressure (Pa) at given altitude
+   //Returns atmospheric pressure (atm) at given altitude
    private double atmPres() {
       if (altitude < 44330)
-         return 101325 * Math.pow(1 - (2.25577 / 100000) * altitude, 5.25588);
+         return Math.pow(1 - (2.25577 / 100000) * altitude, 5.25588);
       else
          return 0.0;
    }
    
    //Returns thrust (N) produced at given pressure
    private double thrust() {
-      return thrustVac + (thrustSL - thrustVac) * (atmPres() / 101325);
+      return thrustVac + (thrustSL - thrustVac) * (atmPres());
    }
    
    //Returns mass (kg) of vehicle at given time
