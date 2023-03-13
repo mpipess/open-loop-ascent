@@ -3,7 +3,7 @@ public class AscentSim {
    public static void main(String[] args) {
       
       Rocket rox = new Rocket(20, 9665, 3072, 112900, 123600, 142);
-      System.out.println(rox.findPitchAngle(100000, 20));
+      System.out.println(rox.findPitchAngleBinary(100000, 20));
       //Rocket rs112 = new Rocket(20, 5272, 1133, 88400, 98500, 95);
       //System.out.println("Pitchover Angle: " + rs112.findPitchAngle(150000, 20));
       
@@ -140,6 +140,30 @@ class Rocket {
       System.out.println("Apogee: " + this.getApogee());
       System.out.println("Cutoff Altitude: " + altitude);
       return (double) Math.round(a * 1000) / 1000;
+   }
+
+   //Returns pitchover angle (degrees) at input altitude (m) that results in input apogee (m)
+   public double findPitchAngleBinary(int targetAp, int pitchAlt) {
+      double high = Math.PI / 2.0;
+      double low = 0.0;
+      double a = 0.0;
+      boolean converged = false;
+      while (!converged) {
+         setToDefault();
+         this.simulateAscent(pitchAlt, a);
+         if (this.getApogee() < targetAp - 0.1) {
+            low = a;
+            a = (high + low) / 2.0;
+        } else if (this.getApogee() > targetAp + 0.1) {
+            high = a;
+            a = (high + low) / 2.0;
+        } else {
+            converged = true;
+        }
+      }
+      System.out.println("Apogee: " + this.getApogee());
+      System.out.println("Cutoff Altitude: " + altitude);
+      return 90 - a * Math.PI / 180.0;
    }
    
 }

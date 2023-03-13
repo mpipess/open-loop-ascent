@@ -101,8 +101,28 @@ class Rocket:
         print("Apogee: " + str(self.getApogee()))
         print("Cutoff Altitude: " + str(self.altitude))
         return round(a, 3)
+    
+    def findPitchAngleBinary(self, targetAp, pitchAlt):
+        high = math.pi
+        low = 0
+        a = 0
+        converged = False
+        while (not converged):
+            self.setToDefault()
+            self.simulateAscent(pitchAlt, a)
+            if (self.getApogee() < targetAp - 0.1):
+                low = a
+                a = (high + low) / 2.0
+            elif (self.getApogee() > targetAp + 0.1):
+                high = a
+                a = (high + low) / 2.0
+            else:
+                converged = True
+        print("Apogee: " + str(self.getApogee()))
+        print("Cutoff Altitude: " + str(self.altitude))
+        return 90 - a * math.pi / 180.0
 
 rox = Rocket(20, 9665, 3072, 112900, 123600, 142)
-print(rox.findPitchAngle(100000, 20))
+print(rox.findPitchAngleBinary(100000, 20))
 rs112 = Rocket(20, 5272, 1133, 88400, 98500, 95)
 #print(rs112.findPitchAngle(150000, 20))
